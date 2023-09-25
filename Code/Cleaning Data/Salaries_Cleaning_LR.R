@@ -25,11 +25,15 @@ salaries$Pos[salaries$Pos == 'PF-SF'] <- 'PF'
 salaries$Pos[salaries$Pos == 'SF-PF'] <- 'SF'
 salaries$Pos[salaries$Pos == 'SF-SG'] <- 'SF'
 
+salaries <- salaries[!duplicated(salaries$Player),]
+
 salaries <- salaries %>%
   mutate(Pos = factor(Pos, levels = (c('PG', 'SG', 'SF', 'PF', 'C')))) %>%
   mutate(across(c('Player', 'Tm'), as.factor))%>%
   mutate(across(where(is.character), as.numeric))%>%
-  mutate(Player = as.character(Player))
+  mutate(Player = as.character(Player)) %>%
+  select(-c('Player','Ratings', 'Tm'))
+
+
 str(salaries)
-
-
+dim(salaries)
